@@ -10,12 +10,20 @@ import com.melyseev.coderswag.Model.Category
 import com.melyseev.coderswag.R
 import kotlinx.android.synthetic.main.category_list_item.view.*
 
-class ControllerAdapter(val context:Context, val categories: List<Category>): BaseAdapter() {
+class OldControllerAdapter(val context:Context, val categories: List<Category>): BaseAdapter() {
 
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val view= LayoutInflater.from(context).inflate(R.layout.category_list_item, null)
 
+        val view: View
+        if(convertView==null) {
+            view = LayoutInflater.from(context).inflate(R.layout.category_list_item, null)
+            println("first time")
+        }
+        else {
+            view = convertView
+            println("reuse it")
+        }
         val categoryItem = categories[position]
         view.tvCategory.text = categoryItem.title
         val imageResource= context.resources.getIdentifier(categoryItem.image, "drawable", context.packageName)
@@ -27,4 +35,8 @@ class ControllerAdapter(val context:Context, val categories: List<Category>): Ba
     override fun getItem(position: Int): Any = categories[position]
     override fun getItemId(position: Int): Long = 0
     override fun getCount(): Int = categories.count()
+
+    private class ViewHolder{
+
+    }
 }
